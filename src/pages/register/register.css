@@ -1,0 +1,60 @@
+.register {
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: 
+    linear-gradient(
+        rgba(255,255,255,0.5),
+        rgba(255,255,255,0.5)
+    ),
+    url("https://hitfigure.com/wp-content/uploads/2012/03/login-background.jpg");
+    background-size: cover;
+    align-items: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.registerTitle {
+    font-size: 30px;
+}
+
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.registerForm > label {
+    margin: 10px 0;
+}
+
+.registerInput {
+    padding: 10px;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.registerBtn {
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: lightskyblue;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    
+}
+
+.registerLoginBtn {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: lightcoral;
+    color: white;
+    border-radius: 10px;
+    height: 30px;
+    width: 100px;
+    cursor: pointer;
+    border: none;
+}
