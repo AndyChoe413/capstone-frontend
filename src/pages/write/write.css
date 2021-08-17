@@ -1,5 +1,7 @@
 .write {
     padding-top: 50px;
+    height: 500px;
+    width: 90vw;
 }
 
 .writeImg {
@@ -13,6 +15,7 @@
 
 .writeForm {
     position: relative;
+
 }
 
 .writeFormGroup {
@@ -48,7 +51,7 @@
 
 .writeText {
     font-size: 20px;
-    height: 100vh;
+    height: 30vh;
 }
 
 .writeSubmit {

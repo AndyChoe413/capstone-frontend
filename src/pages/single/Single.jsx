@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Sidebar from "../../components/sideBar/Sidebar";
 import SinglePost from "../../components/singlePost/SinglePost";
 import axios from "axios";
+import GoogleMap from "../../components/map/GoogleMap";
 import "./single.css";
 
 
@@ -32,12 +33,22 @@ export class Single extends Component {
         console.log("single" , this.props);
 
 		return (
-            <div className="single">
-                {/* post is a prop being passed into singlePost.jsx  checks if post is null  if not sends in the SinglePost component and renders onto the DOM*/}
-                {this.state.post ? <SinglePost id={this.props.match.params.postId} history={this.props.history} post={this.state.post} /> : ""}
+			<div className='single'>
+				{/* post is a prop being passed into singlePost.jsx  checks if post is null  if not sends in the SinglePost component and renders onto the DOM*/}
+				{this.state.post ? (
+					<SinglePost
+						id={this.props.match.params.postId}
+						history={this.props.history}
+						post={this.state.post}
+					/>
+				) : (
+					''
+				)}
 
-                {/* Sidebar component rendering to DOM on Single page */}
-				<Sidebar />
+				{/* Sidebar component rendering to DOM on Single page */}
+				{/* <Sidebar /> */}
+
+				<GoogleMap />
 			</div>
 		);
 	}

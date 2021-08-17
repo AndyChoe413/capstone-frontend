@@ -7,61 +7,105 @@ import Register from "./pages/register/Register";
 import Write from "./pages/write/Write"
 import Single from "./pages/single/Single"
 // import Write from "../src/components/pages/write/Write";
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import jwtDecode from "jwt-decode";
 
 //The <Switch /> component will only render the first route that matches/includes the path. Once it finds the first route that matches the path, it will not look for any other matches. Not only that, it allows for nested routes to work properly, which is something that <Router /> will not be able to handle.
 import {BrowserRouter as Router,Switch,Route,} from "react-router-dom";
 
 
-export class App extends Component {
+function App() {
 
-  state = {
-    user: null,
-  }
+  // state = {
+  //   user: null,
+  // }
 
-  login = (token) => {
-    this.setState({
-      user: {
+  const [user, setUser] = useState(null)
+
+  // login = (token) => {
+  //   this.setState({
+  //     user: {
+  //       username: token.username,
+  //       email: token.email
+  //     }
+  //   })
+  // }
+
+   useEffect(() => {
+  
+     checkIfExistingUser()
+     
+  }, [])
+
+
+  const login = (token) => {
+    setUser({user: {
         username: token.username,
         email: token.email
-      }
-    })
+      }})
   }
 
-  componentDidMount() {
-    let getJwtToken = window.localStorage.getItem("jwtToken")
+
+  const checkIfExistingUser = () => {
+        let getJwtToken = window.localStorage.getItem("jwtToken")
 
     if (getJwtToken) {
       const currentTime = Date.now() / 1000;
       let decodedJwtToken = jwtDecode(getJwtToken)
 
       if (decodedJwtToken.exp < currentTime) {
-        this.handleUserLogout()
+        handleUserLogout()
       } else {
-        this.handleUserLogin(decodedJwtToken)
+        handleUserLogin(decodedJwtToken)
       }
     }
   }
+ 
 
-  handleUserLogin = (user) => {
-    this.setState({
+  // componentDidMount =()=> {
+  //   let getJwtToken = window.localStorage.getItem("jwtToken")
+
+  //   if (getJwtToken) {
+  //     const currentTime = Date.now() / 1000;
+  //     let decodedJwtToken = jwtDecode(getJwtToken)
+
+  //     if (decodedJwtToken.exp < currentTime) {
+  //       this.handleUserLogout()
+  //     } else {
+  //       this.handleUserLogin(decodedJwtToken)
+  //     }
+  //   }
+  // }
+
+  // handleUserLogin = (user) => {
+  //   this.setState({
+  //     user: {
+  //       email: user.email
+  //     }
+  //   })
+  // }
+
+   const handleUserLogin = (user) => {
+    setUser({
       user: {
         email: user.email
       }
     })
   }
 
-  handleUserLogout = () => {
+  // handleUserLogout = () => {
+  //   window.localStorage.removeItem("jwtToken")
+  //   this.setState({
+  //     user:null
+  //   })
+  // }
+
+  const handleUserLogout = () => {
     window.localStorage.removeItem("jwtToken")
-    this.setState({
-      user:null
-    })
+    setUser(null)
   }
 
-  render() {
-
-    const {user} = this.state
+    // const {user} = this.state
     
     return (
         
@@ -69,19 +113,19 @@ export class App extends Component {
 
         <Router>
           {/*handleUserLogout={this.handleUserLogout } function is being passed into TopBar component  */}
-          <TopBar user={user} handleUserLogout={this.handleUserLogout }/>
+          <TopBar user={user} handleUserLogout={handleUserLogout }/>
       <Switch>
         <Route exact path="/">
           <Home/>
         </Route>
         <Route exact path="/register" >
-              {user ? <Home /> : <Register login={ this.login}/>}
+              {user ? <Home /> : <Register login={ login}/>}
         </Route>
           <Route exact path="/login"
             //render will send all the router props and methods like history
             render={(routerProps) => (
               <Login
-              login={this.login}
+              login={login}
                 {...routerProps}
               />
             )}
@@ -111,7 +155,7 @@ export class App extends Component {
       </Switch>
     </Router>
   );
-  }
+  
 }
 
 export default App
