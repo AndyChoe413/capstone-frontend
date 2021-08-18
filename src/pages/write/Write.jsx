@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router';
 import jwtDecode from 'jwt-decode';
 import GoogleMap from '../../components/map/GoogleMap'
 
@@ -38,19 +39,16 @@ function CustomHook(initialState) {
 
 
 function Write() {
+	const history = useHistory();
 	// state = {
 	// 	title: "",
 	// 	description: "",
 	// 	loginError: "",
 	// };
 
-	// const[title, setTitle] = useState('')
-	// const[description, setdescription] = useState('')
-	// const [loginError, setLoginError] = useState('')
-
 	const [title, titleOnChange, titleError, titleErrorMessage] = CustomHook('title')
 	const [description, descriptionOnChange, descriptionError, descriptionErrorMessage] = CustomHook('description');
-	const [errorMessage, setErrorMessage] = CustomHook('errorMessage')
+	
 	
 	// console.log(title)
 	// console.log(titleErrorMessage);
@@ -62,7 +60,8 @@ function Write() {
 	// 	});
 	// };
 
-	const handleSubmit = async (event) => {
+	
+	const HandleSubmit = async (event) => {
 		event.preventDefault();
 
 		try {
@@ -84,9 +83,11 @@ function Write() {
 				userInput
 			);
 			// console.log(result);
+			// console.log(props.history)
 
+			
 			//once everything is finished we grab the history from react router and push the page back to homepage
-			this.props.history.push("/");
+			history.push("/");
 			// console.log(this.props)
 		} catch (e) {
 			console.log(e);
@@ -127,28 +128,34 @@ function Write() {
 				alt=''
 				className='writeImg'
 			/>
-			<form className='writeForm' onSubmit={handleSubmit}>
+			<form className='writeForm' onSubmit={HandleSubmit}>
 				<div className='writeFormGroup'>
 					<label htmlFor='fileInput'>
 						<i className='writeIcon fas fa-plus'></i>
 					</label>
 
-					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-						
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+						}}
+					>
 						{/* checking if error is true or false.  if true grab the error message */}
-						{titleError ? <div style={{ color: 'red' }}>{titleErrorMessage}</div> : ''}
+						
+						<div style={{ color: 'red' }}>{titleError && titleErrorMessage}</div>
 						
 
-					<input type='file' id='fileInput' style={{ display: 'none' }} />
-					<input
-						className='writeInput'
-						type='text'
-						placeholder='Title'
-						autoFocus={true}
-						value={title}
-						name='title'
-						onChange={(e) => titleOnChange(e)}
-					/>
+						<input type='file' id='fileInput' style={{ display: 'none' }} />
+						<input
+							className='writeInput'
+							type='text'
+							placeholder='Title'
+							autoFocus={true}
+							value={title}
+							name='title'
+							onChange={(e) => titleOnChange(e)}
+						/>
 					</div>
 				</div>
 
@@ -156,10 +163,12 @@ function Write() {
 					className='writeFormGroup'
 					style={{ display: 'flex', flexDirection: 'column' }}
 				>
-
 					{/* checking if error is true or false.  if true grab the error message */}
-					{descriptionError && <div style={{ color: 'red' }}>{descriptionErrorMessage}</div>}
-
+					{
+						<div style={{ color: 'red' }}>
+							{descriptionError && descriptionErrorMessage}
+						</div>
+					}
 
 					<textarea
 						placeholder='Add your story ...'
