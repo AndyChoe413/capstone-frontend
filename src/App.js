@@ -119,7 +119,7 @@ function App() {
           <Home/>
         </Route>
         <Route exact path="/register" >
-              {user ? <Home /> : <Register login={ login}/>}
+              {user ? <Home /> : <Register login={login}/>}
         </Route>
           <Route exact path="/login"
             //render will send all the router props and methods like history
