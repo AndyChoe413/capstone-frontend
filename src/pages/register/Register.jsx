@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { LoginContext } from "../../context/context";
 import CustomHook from "../hooks/inputHooks";
 import axios from "axios";
 import { useHistory } from 'react-router';
@@ -7,6 +8,7 @@ import { isEmail, isAlphanumeric, isStrongPassword } from "validator";
 import jwtDecode from "jwt-decode";
 
 import "./register.css";
+import Login from "../login/Login";
 
 
 const URL = "http://localhost:3001";
@@ -14,6 +16,8 @@ const URL = "http://localhost:3001";
 
 function Register() {
 	const history = useHistory();
+
+	const { login } = useContext(LoginContext);
 	// state = {
 	// 	username: "",
 	// 	email: "",
@@ -28,17 +32,17 @@ function Register() {
 	// };
 
 	const [username, userNameOnChange, userNameError, userNameErrorMessage] =
-		CustomHook('');
+		CustomHook('username');
 
 	const [email, emailOnChange, emailError, emailErrorMessage] =
-		CustomHook('');
+		CustomHook('email');
 
 	const [password, passwordOnChange, passwordError, passwordErrorMessage] =
-		CustomHook('');
+		CustomHook('password');
 
-	// console.log(username)
-	// console.log(email)
-	// console.log(password)
+	console.log(username)
+	console.log(email)
+	console.log(password)
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -61,10 +65,10 @@ function Register() {
 			// //jwtToken name is stored in local storage and can be accessed in any file with same naming convention
 			window.localStorage.setItem("jwtToken", jwtToken)
 
-			let decodedToken = jwtDecode(jwtToken)
-			
+			// let decodedToken = jwtDecode(jwtToken)
+			login(jwtDecode(jwtToken));
 
-			// this.props.login(decodedToken);
+			// props.login(decodedToken);
 
 			// //sends back to home page after submit is pressed
 			history.push("/")
@@ -97,7 +101,7 @@ function Register() {
 	// };
 
 	// handleUsernameInput = () => {
-	// 	if (this.state.username.length === 0) {
+	// 	if (username.length === 0) {
 	// 		this.setState({
 	// 			usernameError: "Username cannot be empty",
 	// 		});
