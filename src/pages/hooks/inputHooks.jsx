@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { isEmail, isAlphanumeric, isStrongPassword } from 'validator';
 
 function CustomHook(initialState) {
     const [value, setValue] = useState(initialState)
@@ -19,6 +20,7 @@ function CustomHook(initialState) {
             setErrorMessage('')
         }
     }
+    
 
     function clearInput() {
         setValue('')

@@ -8,16 +8,16 @@ import { isEmail, isAlphanumeric, isStrongPassword } from "validator";
 import jwtDecode from "jwt-decode";
 
 import "./register.css";
-import Login from "../login/Login";
+
 
 
 const URL = "http://localhost:3001";
 
 
-function Register() {
+function Register({login}) {
 	const history = useHistory();
 
-	const { login } = useContext(LoginContext);
+
 	// state = {
 	// 	username: "",
 	// 	email: "",
@@ -40,9 +40,11 @@ function Register() {
 	const [password, passwordOnChange, passwordError, passwordErrorMessage] =
 		CustomHook('password');
 
-	console.log(username)
-	console.log(email)
-	console.log(password)
+	// console.log(username)
+	// console.log(email)
+	// console.log(password)
+	console.log(userNameError);
+	console.log(userNameErrorMessage);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -65,8 +67,8 @@ function Register() {
 			// //jwtToken name is stored in local storage and can be accessed in any file with same naming convention
 			window.localStorage.setItem("jwtToken", jwtToken)
 
-			// let decodedToken = jwtDecode(jwtToken)
-			login(jwtDecode(jwtToken));
+			let decodedToken = jwtDecode(jwtToken)
+			login(decodedToken);
 
 			// props.login(decodedToken);
 
@@ -78,8 +80,11 @@ function Register() {
 	};
 
 
+	// useEffect(() => {
+	// 	handleUsernameInput();
+	// }, []);
 
-	// const handleChange = (event) => {
+	// handleChange = (event) => {
 	// 	// console.log(event.target.value);
 
 	// 	this.setState(
@@ -100,19 +105,19 @@ function Register() {
 	// 	);
 	// };
 
-	// handleUsernameInput = () => {
+	// const handleUsernameInput = () => {
 	// 	if (username.length === 0) {
-	// 		this.setState({
-	// 			usernameError: "Username cannot be empty",
+	// 		userNameError({
+	// 			usernameError: 'Username cannot be empty',
 	// 		});
 	// 	} else {
-	// 		if (isAlphanumeric(this.state.username)) {
-	// 			this.setState({
-	// 				usernameError: "",
+	// 		if (isAlphanumeric(username)) {
+	// 			userNameError({
+	// 				usernameError: '',
 	// 			});
 	// 		} else {
-	// 			this.setState({
-	// 				usernameError: "Username can must be alphanumeric",
+	// 			userNameError({
+	// 				usernameError: 'Username can must be alphanumeric',
 	// 				isButtonDisabled: true,
 	// 			});
 	// 		}
@@ -227,53 +232,51 @@ function Register() {
 						// onFocus={this.handleInputOnFocus}
 					/>
 
-					{/* <div className="errorMessage" style={{ color: "red" }}>
-						{usernameError && usernameError}
-					</div> */}
+					<div className='errorMessage' style={{ color: 'red' }}>
+						{userNameError && userNameErrorMessage}
+					</div>
 
 					<label>Email</label>
 					<input
-						className="registerInput"
-						type="text"
-						placeholder="Enter your email..."
-						autoComplete="true"
-						name="email"
+						className='registerInput'
+						type='text'
+						placeholder='Enter your email...'
+						autoComplete='true'
+						name='email'
 						value={email}
-						onChange={e => emailOnChange(e)}
+						onChange={(e) => emailOnChange(e)}
 						// onBlur={this.handleOnBlur}
 						// onFocus={this.handleInputOnFocus}
 					/>
 
-					{/* <div className="errorMessage" style={{ color: "red" }}>
-						{emailError && emailError}
-					</div> */}
-
+					<div className='errorMessage' style={{ color: 'red' }}>
+						{emailError && emailErrorMessage}
+					</div>
 
 					<label>Password</label>
 					<input
-						className="registerInput"
-						type="password"
-						placeholder="Enter your password..."
-						autoComplete="true"
-						name="password"
+						className='registerInput'
+						type='password'
+						placeholder='Enter your password...'
+						autoComplete='true'
+						name='password'
 						value={password}
 						onChange={(e) => passwordOnChange(e)}
 						// onBlur={this.handleOnBlur}
 						// onFocus={this.handleInputOnFocus}
 					/>
 
-					{/* <div className="errorMessage" style={{ color: "red", width: 300 }}>
-						{passwordError && passwordError}
-					</div> */}
+					<div className="errorMessage" style={{ color: "red", width: 300 }}>
+						{passwordError && passwordErrorMessage}
+					</div>
 
 					<button
-						className="registerBtn"
-						type="submit"
+						className='registerBtn'
+						type='submit'
 						// disabled={this.state.isButtonDisabled}
 					>
 						Register
 					</button>
-
 				</form>
 				<button className='registerLoginBtn'>
 					<Link className='link' to='/login'>
@@ -284,7 +287,6 @@ function Register() {
 					<span style={{ color: "red", marginTop: 20 }}>
 						User already exists!
 					</span>  */}
-				
 			</div>
 		);
 	

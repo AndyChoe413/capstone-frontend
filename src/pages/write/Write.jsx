@@ -1,40 +1,11 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
+import CustomHook from '../hooks/inputHooks';
 import { useHistory } from 'react-router';
 import jwtDecode from 'jwt-decode';
 import GoogleMap from '../../components/map/GoogleMap'
 
 import "./write.css"
-
-
-function CustomHook(initialState) {
-	const [value, setValue] = useState(initialState)
-	const [isError, setIsError] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
-
-	//being called onChange as an attribute in the input field
-	function onChange(e) {
-		setValue(e.target.value)
-		checkInput(e.target.value)
-	}
-
-	function clearInput() {
-		setValue('')
-	}
-
-	//checks input and flips error to true and sets error message state
-	function checkInput(value) {
-		if (value.length === 0) {
-			setIsError(true)
-			setErrorMessage(`${initialState} is required`)
-		} else {
-			setIsError(false)
-			setErrorMessage('')
-		}
-	}
-
-	return [value, onChange, isError, errorMessage, clearInput];
-}
 
 
 

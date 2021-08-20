@@ -1,137 +1,145 @@
 import React, { Component } from 'react'
 import { isEmpty, isEmail, isAlpha } from 'validator'
 import { Link } from 'react-router-dom';
-import {toast} from "toastify"
+import CustomHook from '../hooks/inputHooks';
+import { useHistory } from 'react-router';
 import axios from "axios";
 import jwtDecode from 'jwt-decode';
 import "./login.css"
-import { resetWarningCache } from 'prop-types';
 
 
 
-export class Login extends Component {
 
-	state = {
-		username: "",
-		password: "",
-		usernameError: "",
-		passwordError: "",
-		canSubmit: true,
-	}
+function Login({login}){
+	const history = useHistory();
 
-	handleOnChange = (event) => {
+	const [username, userNameOnChange, userNameError, userNameErrorMessage] =
+		CustomHook('username');
+	
+	
+	const [password, passwordOnChange, passwordError, passwordErrorMessage] =
+		CustomHook('password');
+	
+	// state = {
+	// 	username: "",
+	// 	password: "",
+	// 	usernameError: "",
+	// 	passwordError: "",
+	// 	canSubmit: true,
+	// }
+
+	// handleOnChange = (event) => {
 		
-		this.setState({
-			[event.target.name]: event.target.value
-		},
-			() => {
-				// console.log(this.state)
-				if (event.target.name === "username") {
-					if (isEmpty(this.state.username)) {
-						this.setState({
-							usernameError: "Username cannot be empty",
-							canSubmit: true
-						})
-					} else {
-						if (isAlpha(this.state.username)) {
-							this.setState({
-								usernameError: ""
-							})
-						}
-					}
-				}
+	// 	this.setState({
+	// 		[event.target.name]: event.target.value
+	// 	},
+	// 		() => {
+	// 			// console.log(this.state)
+	// 			if (event.target.name === "username") {
+	// 				if (isEmpty(this.state.username)) {
+	// 					this.setState({
+	// 						usernameError: "Username cannot be empty",
+	// 						canSubmit: true
+	// 					})
+	// 				} else {
+	// 					if (isAlpha(this.state.username)) {
+	// 						this.setState({
+	// 							usernameError: ""
+	// 						})
+	// 					}
+	// 				}
+	// 			}
 
-				if (event.target.name === "password") {
-					if (isEmpty(this.state.password)) {
-						this.setState({
-							passwordError: "Password cannot be empty",
-							canSubmit: true
-						})
-					} else {
-						this.setState({
-							passwordError: "",
-						})	
-					}					
-				}
-			}
-		)
+	// 			if (event.target.name === "password") {
+	// 				if (isEmpty(this.state.password)) {
+	// 					this.setState({
+	// 						passwordError: "Password cannot be empty",
+	// 						canSubmit: true
+	// 					})
+	// 				} else {
+	// 					this.setState({
+	// 						passwordError: "",
+	// 					})	
+	// 				}					
+	// 			}
+	// 		}
+	// 	)
 		
-	}
+	// }
 
-	handleSubmit = async (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault()
 		//step 1 create input to send to backend axios
 		let userInput = {
-			username: this.state.username,
-			password:this.state.password
+			username: username,
+			password: password
 		}
 
 		try {
 			// step 2 need to send in the users information to the post request
 			let result = await axios.post("http://localhost:3001/api/auth/login", userInput)
 			//console.log to check if you get a success or error message from backend
-			console.log(result)
+			// console.log(result)
 
 			//step 3 token was created in backend.  need to grab the token and decode it
 			let jwtToken = result.data.payload
 			//step 4 Decrypt the token
 			let decodedToken = jwtDecode(jwtToken)
 			//step 5 send the decrypted token to this.props.login
-			this.props.login(decodedToken)
+			login(decodedToken)
 			//step 6 send the encrypted token to local storage /// NOT the decrypted token!
 			window.localStorage.setItem("jwtToken", jwtToken)
 			//step 7 change window to homepage
-			console.log(this.props);
-			this.props.history.push("/")
+			// console.log(this.props);
+			history.push("/")
 		} catch (e) {
 			console.log(e.response)
 		}
 	}
 
 
-	render() {
+
 
 
 		return (
-			<div className="login">
-				<span className="loginTitle">Login</span>
-				<form className="loginForm" onSubmit={this.handleSubmit}>
+			<div className='login'>
+				<span className='loginTitle'>Login</span>
+				<form className='loginForm' onSubmit={handleSubmit}>
 					<label>Username</label>
 					<input
-						className="loginInput"
-						type="text"
-						placeholder="Enter your username..."
-						name="username"
-						value={this.state.username}
-						onChange={this.handleOnChange}
+						className='loginInput'
+						type='text'
+						placeholder='Enter your username...'
+						name='username'
+						value={username}
+						onChange={userNameOnChange}
 					/>
-					<span style={{ color: "red" }}>
-						{this.state.usernameError && this.state.usernameError}
+					<span style={{ color: 'red' }}>
+						{userNameError && userNameErrorMessage}
 					</span>
 					<label>Password</label>
 					<input
-						className="loginInput"
-						type="password"
-						placeholder="Enter your password..."
-						name="password"
-						value={this.state.password}
-						onChange={this.handleOnChange}
+						className='loginInput'
+						type='password'
+						placeholder='Enter your password...'
+						name='password'
+						value={password}
+						onChange={passwordOnChange}
 					/>
-					<span style={{ color: "red" }}>
-						{this.state.passwordError && this.state.passwordError}
+					<span style={{ color: 'red' }}>
+						{passwordError && passwordErrorMessage}
 					</span>
-					<button className="loginBtn" type="submit">
+					<button className='loginBtn' type='submit'>
 						Login
 					</button>
 				</form>
-				<button className="loginRegBtn">
-					<Link className="link" to="/register">
+				<button className='loginRegBtn'>
+					<Link className='link' to='/register'>
 						Register
 					</Link>
 				</button>
 			</div>
 		);
-	}
 }
 
 export default Login
