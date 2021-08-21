@@ -1,29 +1,25 @@
-import React, {useState, useEffect} from "react";
+import React, { Component } from "react";
 import Sidebar from "../../components/sideBar/Sidebar";
 import SinglePost from "../../components/singlePost/SinglePost";
 import axios from "axios";
 import GoogleMap from "../../components/map/GoogleMap";
 import "./single.css";
 
-function Single({postId, history}){
+
+export class Single extends Component {
    
-    // state = {
-    //     post: null
-    // }
-	const [post, setPost] = useState(null)
+    state = {
+        post: null
+    }
 
-	useEffect(() => {
-		getPosts()
-	}, [])
-
-    const getPosts = async() => {
-        // console.log(this.props)
+    componentDidMount = async() => {
+        console.log(this.props)
         try {
             let result = await axios.get(
                 `http://localhost:3001/api/posts/findPostById/${this.props.match.params.postId}`
 			);
-        // console.log(result);
-        setPost({
+        console.log(result);
+        this.setState({
             post: result.data.payload
         })
         } catch (e) {
@@ -31,14 +27,20 @@ function Single({postId, history}){
         }
     }
 
+    render() {
+        
+
+        console.log("single");
+
 		return (
 			<div className='single'>
+				<h1>single</h1>
 				{/* post is a prop being passed into singlePost.jsx  checks if post is null  if not sends in the SinglePost component and renders onto the DOM*/}
-				{post ? (
+				{this.state.post ? (
 					<SinglePost
-						id={postId}
-						history={history}
-						post={post}
+						id={this.props.match.params.postId}
+						history={this.props.history}
+						post={this.state.post}
 					/>
 				) : (
 					''
@@ -50,6 +52,7 @@ function Single({postId, history}){
 				<GoogleMap />
 			</div>
 		);
+	}
 }
 
 export default Single;

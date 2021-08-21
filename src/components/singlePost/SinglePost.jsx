@@ -1,31 +1,47 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import "./singlePost.css";
-import { Link, history } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 
-export class SinglePost extends Component {
-	state = {
-		title: "",
-		desc: "",
-		toggle: false,
-		submit: false,
-	};
+function SinglePost({post, id}) {
+	// state = {
+	// 	title: "",
+	// 	desc: "",
+	// 	toggle: false,
+	// 	submit: false,
+	// };
+	const [title, setTitle] = useState('')
+	const [description, setDescription] = useState('')
+	const [toggle, setToggle] = useState(false)
+	const [submit, setSubmit] = useState(false)
 
-	async componentDidMount() {
+	useEffect(() => {
+		getInfo()
+	}, [])
+
+	const getInfo = async () => {
 		try {
-			this.setState({
-				title: this.props.post.title,
-				desc: this.props.post.desc,
-			});
+			setTitle({ title: post.title })
+			setDescription({description: post.description})
 		} catch (e) {
-			console.log(e);
+			console.log(e)
 		}
 	}
+	// async componentDidMount() {
+	// 	try {
+	// 		this.setState({
+	// 			title: this.props.post.title,
+	// 			desc: this.props.post.desc,
+	// 		});
+	// 	} catch (e) {
+	// 		console.log(e);
+	// 	}
+	// }
 
-	handleOnSubmit = async () => {
+	const handleOnSubmit = async () => {
 		console.log("clicked submit")
 		try {
 			let getJwtToken = window.localStorage.getItem("jwtToken");
@@ -34,25 +50,25 @@ export class SinglePost extends Component {
 			console.log(decodedToken);
 			const updatedInfo = {
 				username: decodedToken.username,
-				title: this.state.title,
-				desc: this.state.desc,
+				title: title,
+				description: description,
 			};
 
 			let result = await axios.put(
 				//this.props.id is being passed down from Single.jsx file
-				`http://localhost:3001/api/posts/${this.props.id}`,
+				`http://localhost:3001/api/posts/${id}`,
 				updatedInfo
 			);
 
 			//Toggle to change the submit button back using onHandleEditClick
-			this.onHandleEditClick()
+			onHandleEditClick()
 			// console.log(result)
 		} catch (e) {
 			console.log(e)
 		}
 	}
 
-	onHandleEditClick = () => {
+	const onHandleEditClick = () => {
 		console.log("clicked");
 		this.setState((prevState) => ({ toggle: !prevState.toggle }));
 	};
@@ -80,12 +96,14 @@ export class SinglePost extends Component {
 	};
 
 
-	render() {
-		console.log(this.props.post);
-		
+
+		// console.log(this.props.post);
+		console.log('hello');
 		return (
+			
 			<div className="singlePost">
 				<div className="singlePostWrapper">
+					<h1>hello</h1>
 					<h1 className="singlePostTitle">
 						{this.state.toggle ? (
 							<input
@@ -100,7 +118,7 @@ export class SinglePost extends Component {
 							{this.state.toggle ? (
 								<button
 									className="submit"
-									onClick={() => this.handleOnSubmit()}
+									onClick={() => handleOnSubmit()}
 								>
 									Submit
 								</button>
@@ -158,7 +176,6 @@ export class SinglePost extends Component {
 				/>
 			</div>
 		);
-	}
 }
 
 export default SinglePost;
