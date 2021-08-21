@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router";
+import { useHistory } from "react-router";
+import { Link } from 'react-router-dom';
+import CustomHook from "../../pages/hooks/singlePostHooks";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import "./singlePost.css";
-import { Link} from "react-router-dom";
+import { someLimit } from "async";
 
 
-function SinglePost({post, id}) {
+
+function SinglePost({ post, id }) {
+	const history = useHistory()
 	// state = {
 	// 	title: "",
 	// 	desc: "",
 	// 	toggle: false,
 	// 	submit: false,
 	// };
-	const [title, setTitle] = useState('')
-	const [description, setDescription] = useState('')
-	const [toggle, setToggle] = useState(false)
-	const [submit, setSubmit] = useState(false)
+	console.log(post)
+	console.log(id)
+	
+	const [title, titleOnChange] = CustomHook('');
+	const [description, descriptionOnChange] = CustomHook('');
+
+	const [toggle, setToggle] = useState(false);
+
+	console.log(title)
+	console.log(description);
+	console.log(toggle)
 
 	useEffect(() => {
 		getInfo()
@@ -24,8 +35,8 @@ function SinglePost({post, id}) {
 
 	const getInfo = async () => {
 		try {
-			setTitle({ title: post.title })
-			setDescription({description: post.description})
+			titleOnChange({ title: post.title });
+			descriptionOnChange({ description: post.description });
 		} catch (e) {
 			console.log(e)
 		}
@@ -69,26 +80,29 @@ function SinglePost({post, id}) {
 	}
 
 	const onHandleEditClick = () => {
-		console.log("clicked");
-		this.setState((prevState) => ({ toggle: !prevState.toggle }));
+		if (toggle) {
+			setToggle(false)
+		} else {
+			setToggle(true)
+		}
 	};
 
-	handleOnChange = (event) => {
-		this.setState({
-			[event.target.name]: event.target.value,
-		});
-		console.log(event.target.value);
-	};
+	// const handleOnChange = (event) => {
+	// 	this.setState({
+	// 		[event.target.name]: event.target.value,
+	// 	});
+	// 	console.log(event.target.value);
+	// };
 
-	deletePost = async () => {
+	const deletePost = async () => {
 		// make an api call to delete this post
 		try {
 			const result = await axios.delete(
-				`http://localhost:3001/api/posts/${this.props.post._id}`
+				`http://localhost:3001/api/posts/${post._id}`
 			);
 
 			// console.log(result);
-			this.props.history.push("/");
+			history.push("/");
 		} catch (e) {
 			console.log(e);
 		}
@@ -98,80 +112,72 @@ function SinglePost({post, id}) {
 
 
 		// console.log(this.props.post);
-		console.log('hello');
+
 		return (
-			
-			<div className="singlePost">
-				<div className="singlePostWrapper">
-					<h1>hello</h1>
-					<h1 className="singlePostTitle">
-						{this.state.toggle ? (
-							<input
-								name="title"
-								value={this.state.title}
-								onChange={this.handleOnChange}
-							/>
+			<div className='singlePost'>
+				<div className='singlePostWrapper'>
+					<h1 className='singlePostTitle'>
+						{toggle ? (
+							<input name='title' value={title} onChange={titleOnChange} />
 						) : (
-							this.state.title
+							title
 						)}
-						<div className="singlePostEdit">
-							{this.state.toggle ? (
-								<button
-									className="submit"
-									onClick={() => handleOnSubmit()}
-								>
+						<div className='singlePostEdit'>
+							{toggle ? (
+								<button className='submit' onClick={() => handleOnSubmit()}>
 									Submit
 								</button>
 							) : (
 								<i
-									onClick={() => this.onHandleEditClick()}
-									className="singlePostIcon far fa-edit"
+									onClick={() => onHandleEditClick()}
+									className='singlePostIcon far fa-edit'
 								></i>
 							)}
 							<i
-								className="singlePostIcon far fa-trash-alt"
-								onClick={this.deletePost}
+								className='singlePostIcon far fa-trash-alt'
+								onClick={deletePost}
 							></i>
 						</div>
 					</h1>
-					<div className="singlePostInfo">
-						<span className="singlePostAuthor">
+					<div className='singlePostInfo'>
+						<span className='singlePostAuthor'>
 							Author:
 							{/* Link is the same as an anchor tag but will not re-render the whole page.  comes from react-router-dom
 							if username is clicked page will send user to homepage with all their own posts */}
-							<Link to={`/?user=${this.props.post.username}`} className="link">
-								<b> {this.props.post.username}</b>
+							<Link to={`/?user=${post.username}`} className='link'>
+								<b> {post.username}</b>
 							</Link>
 						</span>
-						<span className="singlePostDate">
-							<b>{new Date(this.props.post.createdAt).toDateString()}</b>
+						<span className='singlePostDate'>
+							<b>{new Date(post.createdAt).toDateString()}</b>
 						</span>
 					</div>
-					{this.state.toggle ? (
+
+					{toggle ? (
 						<input
-							className="singlePostDesc"
-							name="desc"
-							value={this.state.desc}
-							onChange={this.handleOnChange}
+							className='singlePostDesc'
+							name='description'
+							value={description}
+							onChange={descriptionOnChange}
 						/>
 					) : (
-						this.state.desc
+						description
 					)}
 				</div>
-				<label htmlFor="fileInput">
-					<i className="writeIcon fas fa-plus"></i>
+				<label htmlFor='fileInput'>
+					<i className='writeIcon fas fa-plus'></i>
 					<p>Add new photo</p>
 				</label>
-				<input type="file" id="fileInput" style={{ display: "none" }} />
+				<input type='file' id='fileInput' style={{ display: 'none' }} />
 				<img
-					className="postImg"
-					src="https://static.boredpanda.com/blog/wp-content/uploads/2014/04/cherry-blossom-sakura-coverimage.jpg"
-					alt=""
+					className='postImg'
+					src='https://static.boredpanda.com/blog/wp-content/uploads/2014/04/cherry-blossom-sakura-coverimage.jpg'
+					alt=''
 					style={{
-						width: "50vw",
+						width: '50vw',
 						height: 500,
-						marginLeft: "10vw",
-						justifyContent: "center",
+						marginLeft: '10vw',
+						justifyContent: 'center',
 					}}
 				/>
 			</div>

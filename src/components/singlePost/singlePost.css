@@ -32,7 +32,7 @@
 }
 
 .singlePostIcon:first-child {
-    color: deeppink;
+    color: deeppink
 }
 
 .singlePostIcon:last-child {
@@ -59,4 +59,12 @@
     margin-left: 20px;
     font-size: 30px;
     font-weight: 600;
+}
+
+.submit:hover {
+    cursor: pointer;
+}
+
+.singlePostIcon:hover {
+    cursor: pointer;
 }

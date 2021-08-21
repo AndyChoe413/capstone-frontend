@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { LoginContext } from "../../context/context";
 import CustomHook from "../hooks/inputHooks";
 import axios from "axios";
 import { useHistory } from 'react-router';
