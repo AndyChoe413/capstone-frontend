@@ -12,7 +12,8 @@ function Single() {
 	//brings history from react-router
 	const history = useHistory()
 	//brings in params.  ex if you need to use match.params like in classes
-	const {postId} = useParams()
+	const { postId } = useParams()
+	
     // state = {
     //     post: null
     // }

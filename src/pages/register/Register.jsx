@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import CustomHook from "../hooks/inputHooks";
 import axios from "axios";
 import { useHistory } from 'react-router';
-import { isEmail, isAlphanumeric, isStrongPassword } from "validator";
 import jwtDecode from "jwt-decode";
 
 import "./register.css";
@@ -42,8 +41,8 @@ function Register({login}) {
 	// console.log(username)
 	// console.log(email)
 	// console.log(password)
-	console.log(userNameError);
-	console.log(userNameErrorMessage);
+	// console.log(userNameError);
+	// console.log(userNameErrorMessage);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

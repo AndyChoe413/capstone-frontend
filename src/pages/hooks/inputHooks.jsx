@@ -12,15 +12,29 @@ function CustomHook(initialState) {
     }
 
     function checkInputs(value) {
+       
         if (value.length === 0) {
             setIsThereAnError(true)
             setErrorMessage(`${initialState} is required`)
+          
         } else {
             setIsThereAnError(false)
             setErrorMessage('')
         }
     }
-    
+
+    // const handleUsernameInput = (value) => {
+    //     if (value === 'username' && value.length === 0) {
+    //         setIsThereAnError(true);
+	// 		setErrorMessage(`${initialState} is required`);
+    //     } else {
+    //         if (isAlphanumeric(value)) {
+    //             setErrorMessage('');
+    //         } else {
+    //              setErrorMessage('username must be alphanumeric');
+    //         }
+    //     }
+    // }
 
     function clearInput() {
         setValue('')
