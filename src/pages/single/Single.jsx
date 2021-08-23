@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import Sidebar from "../../components/sideBar/Sidebar";
 import SinglePost from "../../components/singlePost/SinglePost";
 import axios from "axios";
@@ -8,8 +8,11 @@ import GoogleMap from "../../components/map/GoogleMap";
 import "./single.css";
 
 
-function Single(){
-   const history = useHistory()
+function Single() {
+	//brings history from react-router
+	const history = useHistory()
+	//brings in params.  ex if you need to use match.params like in classes
+	const {postId} = useParams()
     // state = {
     //     post: null
     // }
@@ -24,7 +27,7 @@ function Single(){
      
         try {
             let result = await axios.get(
-                `http://localhost:3001/api/posts/findPostById/${this.props.match.params.postId}`
+                `http://localhost:3001/api/posts/findPostById/${postId}`
 			);
 			console.log(result);
 			
@@ -45,7 +48,7 @@ function Single(){
 				{/* post is a prop being passed into singlePost.jsx  checks if post is null  if not sends in the SinglePost component and renders onto the DOM*/}
 				{post ? (
 					<SinglePost
-						id={this.props.match.params.postId}
+						id={postId}
 						history={history}
 						post={post}
 					/>
