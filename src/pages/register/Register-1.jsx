@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import Axios from "../../Axios/Axios";
 import { isEmail, isAlphanumeric, isStrongPassword } from "validator";
 import jwtDecode from "jwt-decode";
 
@@ -34,7 +34,7 @@ export class Register extends Component {
 				password: this.state.password,
 			};
 
-			let result = await axios.post(`${URL}/api/auth/register`, userInput);
+			let result = await Axios.post(`/auth/register`, userInput);
 			console.log(result);
 
 			let jwtToken = result.data.payload

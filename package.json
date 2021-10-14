@@ -20,10 +20,11 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "REACT_APP_AXIOS='production' react-scripts start",
-    "build": "REACT_APP_AXIOS='development' react-scripts build",
+    "start": "REACT_APP_AXIOS=production react-scripts start",
+    "build": "REACT_APP_AXIOS=production react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "REACT_APP_AXIOS=development react-scripts start"
   },
   "eslintConfig": {
     "extends": [

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from 'react-router';
 import Sidebar from "../../components/sideBar/Sidebar";
 import SinglePost from "../../components/singlePost/SinglePost";
-import axios from "axios";
+import Axios from "../../Axios/Axios";
 
 import GoogleMap from "../../components/map/GoogleMap";
 import "./single.css";
@@ -27,8 +27,8 @@ function Single() {
     const getData = async() => {
      
         try {
-            let result = await axios.get(
-                `http://localhost:3001/api/posts/findPostById/${postId}`
+            let result = await Axios.get(
+                `/posts/findPostById/${postId}`
 			);
 			console.log(result);
 			

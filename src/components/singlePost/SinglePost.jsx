@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { Link } from 'react-router-dom';
 import CustomHook from "../../pages/hooks/singlePostHooks";
-import axios from "axios";
+import Axios from "../../Axios/Axios";
 import jwtDecode from "jwt-decode";
 import "./singlePost.css";
 import { someLimit } from "async";
@@ -65,9 +65,9 @@ function SinglePost({ post, id }) {
 				description: description,
 			};
 
-			let result = await axios.put(
+			let result = await Axios.put(
 				//this.props.id is being passed down from Single.jsx file
-				`http://localhost:3001/api/posts/${id}`,
+				`/posts/${id}`,
 				updatedInfo
 			);
 
@@ -97,8 +97,8 @@ function SinglePost({ post, id }) {
 	const deletePost = async () => {
 		// make an api call to delete this post
 		try {
-			const result = await axios.delete(
-				`http://localhost:3001/api/posts/${post._id}`
+			const result = await Axios.delete(
+				`/posts/${post._id}`
 			);
 
 			// console.log(result);

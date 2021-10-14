@@ -1,4 +1,4 @@
-import axios from 'axios';
+import Axios from '../../Axios/Axios'
 import React, { useState, useEffect } from 'react'
 import CustomHook from '../hooks/inputHooks';
 import { useHistory } from 'react-router';
@@ -49,8 +49,8 @@ function Write() {
 			};
 
 			//send the request to the posts URL including the user data
-			let result = await axios.post(
-				"http://localhost:3001/api/posts",
+			let result = await Axios.post(
+				"/posts",
 				userInput
 			);
 			// console.log(result);

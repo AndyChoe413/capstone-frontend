@@ -3,7 +3,7 @@ import { isEmpty, isEmail, isAlpha } from 'validator'
 import { Link } from 'react-router-dom';
 import CustomHook from '../hooks/inputHooks';
 import { useHistory } from 'react-router';
-import axios from "axios";
+import Axios from '../../Axios/Axios'
 import jwtDecode from 'jwt-decode';
 import "./login.css"
 
@@ -77,7 +77,7 @@ function Login({login}){
 
 		try {
 			// step 2 need to send in the users information to the post request
-			let result = await axios.post("http://localhost:3001/api/auth/login", userInput)
+			let result = await Axios.post("/auth/login", userInput)
 			//console.log to check if you get a success or error message from backend
 			// console.log(result)
 
@@ -154,7 +154,7 @@ export default Login
 // import { Link } from "react-router-dom";
 // import { useContext, useRef } from "react";
 // import { Context } from "../../context/Context";
-// import axios from "axios";
+// import Axios from "../../Axios/Axios";
 
 // import "./login.css"
 
@@ -171,7 +171,7 @@ export default Login
 // 		dispatch({ type: "LOGIN_START" });
 
 // 		try {
-// 			const result = await axios.post("http//:localhost3001/api/auth/login", {
+// 			const result = await Axios.post("/auth/login", {
 // 				username: userRef.current.value,
 // 				password: passwordRef.current.value,
 // 			});

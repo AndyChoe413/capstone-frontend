@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import Axios from "../../Axios/Axios";
 import "./sidebar.css"
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,7 @@ export default function Sidebar() {
 	// If you’re familiar with React class lifecycle methods, you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined.
 	useEffect(() => {
 		const getCategories = async () => {
-			const result = await axios.get(`${URL}/api/categories`);
+			const result = await Axios.get(`/categories`);
 			console.log(result)
 			setCats(result.data.payload);
 		};

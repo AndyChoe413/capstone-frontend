@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import CustomHook from "../hooks/inputHooks";
-import axios from "axios";
+import Axios from "../../Axios/Axios";
 import { useHistory } from 'react-router';
 import jwtDecode from "jwt-decode";
 
@@ -57,7 +57,7 @@ function Register({login}) {
 				password: password,
 			};
 			// console.log(userInput)
-			let result = await axios.post(`${URL}/api/auth/register`, userInput);
+			let result = await Axios.post(`/auth/register`, userInput);
 			// console.log(result);
 
 			let jwtToken = result.data.payload

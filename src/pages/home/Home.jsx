@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react"
 import Header from "../../components/header/Header"
 import Posts from "../../components/posts/Posts"
 import Sidebar from "../../components/sideBar/Sidebar"
-import axios from "axios"
+import Axios from "../../Axios/Axios"
 import jwtDecode from "jwt-decode";
 import GoogleMap from '../../components/map/GoogleMap'
 
@@ -31,8 +31,8 @@ const Home = () => {
 
 				console.log(decodedJwtToken);
 
-				const posts = await axios.get(
-					`${URL}/api/posts/${decodedJwtToken.username}`
+				const posts = await Axios.get(
+					`/posts/${decodedJwtToken.username}`
 				);
 
 				console.log(posts);
